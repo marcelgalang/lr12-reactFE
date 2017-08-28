@@ -1,22 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Link  } from 'react-router-dom';
 
-const UserList = ({users}) => {
-  return (
-      <ul className="list-group">
-        {users.map(user =>
-           <li className="list-group-item" key={user.id}>
-            <Link to={'/users/' + user.id}>{user.email}
+class UserList extends Component{
 
-            </Link></li>
-        )}
-      </ul>
-  );
-};
 
-UserList.propTypes = {
-  Users: PropTypes.array.isRequired
-};
+  render(){
+    const { user, title } = this.props
 
-export default UserList;
+    return (
+      <div>
+
+          <div>{user.email}:
+          <Link to={`/users/${user.id}`}> {user.email}</Link>
+         </div>
+
+
+
+      </div>
+    )
+  }
+}
+
+
+
+export default UserList

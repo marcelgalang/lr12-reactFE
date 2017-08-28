@@ -1,30 +1,39 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
-
+import { Route } from 'react-router-dom'
+import UserDetail from './UserDetail';
 import UserList from './UserList';
+import { Link  } from 'react-router-dom';
 
 
 
-class UserPage extends Component {
-  render() {
-    const {users} = this.props
-      console.log(users)
-    return(
-      <div className="col-md-12">
-        <h1>Users</h1>
-        <div className="col-md-4">
-          Right here Everyone!
-          <UserList users={this.props.users} />
-        </div>
+
+const UserPage = ({ users }) => (
+<div>
+  <div>
+   <div>{users.map((user) => (
+      <div key={user.id}>
+        <Link to={`/users/${user.id}`}> {user.email}</Link>
       </div>
-      )
-  }
-}
+  ))}</div>
+  </div>
+    <div>
+
+        <Route path="/users/:userId"  render={({match}) => (
+          <UserDetail user={users.find(user => user.id== match.params.userId)}/>
+        )}/>
+
+
+
+    </div>
+
+  </div>
+)
 
 
 UserPage.propTypes = {
-  user: PropTypes.array.isRequired
+  users: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
