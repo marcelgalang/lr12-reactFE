@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link  } from 'react-router-dom';
 
 class UserList extends Component{
@@ -9,18 +9,15 @@ class UserList extends Component{
 
     return (
       <div>
-
-          <div>{user.email}:
           <Link to={`/users/${user.id}`}> {user.email}</Link>
-         </div>
-
-
-
       </div>
+
     )
   }
 }
 
-
+UserList.propTypes = {
+  users: PropTypes.array.isRequired
+};
 
 export default UserList

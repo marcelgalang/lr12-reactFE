@@ -1,10 +1,17 @@
-import webpack from 'webpack';
-import path from 'path';
+
+const webpack = require('webpack');
+const path = require('path');
 
 export default {
   debug: true,
   devtool: 'cheap-module-eval-source-map',
   noInfo: false,
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+    root: [
+      path.resolve('./src')
+    ]
+  },
   entry: [
     'eventsource-polyfill',
     'webpack-hot-middleware/client?reload=true',
