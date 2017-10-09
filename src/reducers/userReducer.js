@@ -9,3 +9,4 @@ export default function userReducer(state = initialState.users, action) {
       return state;
   }
 }
+
