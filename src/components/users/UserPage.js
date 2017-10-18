@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import LeftTimer from '../lefts/LeftTimer'
 import NewLeft from '../lefts/NewLeft'
+import NewOne from '../ones/NewOne'
+import NewSingle from '../ones/NewSingle'
 import StopWatch from '../common/StopWatch'
 
 const UserPage = ({user, users}) => {
@@ -23,7 +25,7 @@ const UserPage = ({user, users}) => {
 
 
           <NewLeft user={user}/>
-
+          <NewSingle user={user} ones={user.ones}/>
       </div>
     )
   }

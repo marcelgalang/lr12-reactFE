@@ -18,29 +18,18 @@ const formattedSeconds = (sec) =>
     + ' s '
 
 
-// const convertMS = gap => {
-//   var d, h, m, s;
-//   s = Math.floor(gap / 1000);
-//   m = Math.floor(s / 60);
-//   s = s % 60;
-//   h = Math.floor(m / 60);
-//   m = m % 60;
-//   d = h>0? Math.floor(h / 24) : null;
-//   h = h % 24;
-//   return { d: d, h: h, m: m};
-// }
-
 var convertMS = gap => {
   var date = new Date(gap);
   var str = '';
   date.getUTCDate()-1 > 0 ?
-    str += date.getUTCDate()-1 + " days, " : null;
+    str += date.getUTCDate()-1 + " days " : null;
   date.getUTCHours() > 0 ?
-    str += date.getUTCHours() + " hours, " : null;
+    str += date.getUTCHours() + " hours " : null;
   date.getUTCMinutes() > 0 ?
-  str += date.getUTCMinutes() + " minutes, " : null;
-  date.getUTCSeconds() > 0
-  str += date.getUTCSeconds() + " seconds, ";
+  str += date.getUTCMinutes() + " m " : null;
+  date <= 59000 ? str += "less than 1 minute " : null;
+  str += "ago"
+  console.log(gap)
   return str;
 }
 
@@ -59,7 +48,7 @@ class NewLeft extends Component {
     lastClearedIncrementer: null
   };
   this.incrementer = null;
-  // this.saveLeft = this.saveLeft.bind(this);
+
   }
 
   handleStartClick() {
@@ -77,8 +66,8 @@ class NewLeft extends Component {
 
     this.props.createLeft(this.state.left);
     this.props.getLefts(this.props.left)
-    console.log(this.state)
-    console.log("We here?")
+
+
     clearInterval(this.incrementer);
     this.setState({
       lastClearedIncrementer: this.incrementer,
@@ -100,10 +89,15 @@ class NewLeft extends Component {
   render() {
     var then = new Date(this.props.lefts.slice(-1)[0].created_at)
     var now = new Date()
+    // function getNow(){
+    //   let d = Date.now;
+    //   d;
+
+    // }
     var gap = now - then
     var since = convertMS(gap);
-    // var since = JSON.stringify(convertMS(gap));
-    console.log(convertMS(gap))
+
+
 
     let lefts = this.props.lefts.slice(-1)[0].duration
     let lastLeft = formattedSeconds(lefts)
@@ -112,12 +106,12 @@ class NewLeft extends Component {
     const {user, users} = this.props
 
     return (
-      <div className="stopwatch">
+      <div>
 
         {(this.state.secondsElapsed === 0 ||
           this.incrementer === this.state.lastClearedIncrementer
-          ? <Button bsSize="large" className="start-btn" onClick={this.handleStartClick.bind(this)}>{formattedSeconds(this.state.secondsElapsed)}</Button>
-          : <Button bsSize="large" className="stop-btn" onClick={this.handleStopClick.bind(this)}>{formattedSeconds(this.state.secondsElapsed)}</Button>
+          ? <Button bsSize="large"  onClick={this.handleStartClick.bind(this)}>{formattedSeconds(this.state.secondsElapsed)}</Button>
+          : <Button bsSize="large"  onClick={this.handleStopClick.bind(this)}>{formattedSeconds(this.state.secondsElapsed)}</Button>
         )}
 
         {(this.state.secondsElapsed !== 0 &&
@@ -128,7 +122,7 @@ class NewLeft extends Component {
           : null
         )}
 
-        <h2>last feeding: {since}</h2>
+        <h2>last feeding: <Link to={`/users/${user.id}`} >{since} </Link></h2>
       </div>
     );
   }
@@ -137,13 +131,10 @@ class NewLeft extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state); // state
 
-  console.log(ownProps); // ownProps
   return {
     lefts: state.lefts
   }
-  console.log(this.props);
 }
 
 export default connect(mapStateToProps, {
